@@ -46,3 +46,28 @@ Your screen should now looking something like the following:
 ** BELOW IS PLACEHOLDER IMAGE **
 
 ![browser-placeholder](browser-placeholder.png "Browser placeholder")
+
+## Starting choo
+In our project's left sidebar, click on the `index.js` file to open its code in the code editor.
+
+You will see the following:
+
+```js
+// import choo
+var choo = require('choo')
+
+// initialize choo
+var app = choo()
+
+// start app
+app.mount('body')
+```
+
+At the top of this file, we are importing the `choo` framework into our project using the `require()` function.
+
+`require()` allows us to import other JavaScript files into our code. `require()` does a lot more than this, but if you're not already familiar with its concepts, for this tutorial all you need to remember is that we will use it to import `choo`, and a handful of other files we write ourselves into our application.
+
+We then need to create an instance of `choo` that we build our app with. We initialize this instance with `choo()`, and store it in the `app` variable. From this point onwards, when we interact with choo, it will be via `app`.
+
+Finally, we start our application by appending it on onto the `<body>` element of the HTML page our app will run on. We do this using the `app.mount()` method that `choo` conveniently makes available to us.
+
