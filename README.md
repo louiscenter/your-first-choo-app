@@ -84,3 +84,5 @@ A new browser window will open showcasing our application. However, as you'll se
 Our application does not yet contain any templates, or any routes. This means that if we try to run our application, we will only ever see a blank page.
 
 Let's fix this.
+
+## Building a template
