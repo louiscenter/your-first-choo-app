@@ -1,3 +1,6 @@
+# NOTE
+This guide is a WIP. You can review the final app's code here: [https://glitch.com/edit/#!/project/choo-animals](https://glitch.com/edit/#!/project/choo-animals)
+
 # your first choo app
 This page will guide you through your first steps as you build an interactive web app with `choo`.
 
