@@ -27,4 +27,19 @@ The user can click anywhere on the grass to add an animal to the field. Clicking
 
 You can try it for yourself here: [https://choo-animals.glitch.com](https://choo-animals.glitch.com)
 
+## Let's get started!
+For this guide, we will be using an online code editor called [Glitch](https://glitch.com/).
 
+Glitch lets us write, edit and deploy JavaScript code in the browser. This is useful because we can make changes to our code and see the updated results instantly.
+
+A starter project is available for you to follow along with this guide: [https://glitch.com/edit/#!/project/choo-animals-starter](https://glitch.com/edit/#!/project/choo-animals-starter)
+
+When the editor has finished loading, you should make your own copy of the project so you can begin editing it. To do this, click the `Remix this` button near the top left hand corner of the window:
+
+![remix](remix-this.png "Screen of remix this button")
+
+Your screen should now looking something like the following:
+
+** BELOW IS PLACEHOLDER IMAGE **
+
+![browser-placeholder](browser-placeholder.png "Browser placeholder")
