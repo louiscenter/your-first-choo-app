@@ -84,3 +84,38 @@ Our application does not yet contain any templates, or any routes. This means th
 Let's fix this.
 
 ## Building a template
+
+In web app development, a template often refers to a piece of code that will help us render some HTML to the screen. Being templates, they will render most of the same information each time, but change slightly depending on the different bits of input they receive.
+
+Templates are essentially functions: given some input, they will render a new output depending on what happens inside the function.
+
+`choo` provides another module we can import that will help us build HTML templates with "template strings", one of JavaScript's newer syntax features.
+
+Let's update the code in our `index.js` file to read the following:
+
+```js
+// import choo
+var choo = require('choo')
+
+// import choo's template helper
+var html = require('choo/html')
+
+// initialize choo
+var app = choo()
+
+// create a template
+var el = html`<div>choo animals</div>`
+
+// start app
+app.mount('body')
+```
+
+Underneath our `choo` import near the top of the file, we're now also importing `choo`'s html helper. This becomes accessible via the `html` variable.
+
+Towards the end of the file, we're creating a new template stored in the `el` variable that we'll use to render `<div>choo animals</div>` on our page.
+
+This line of code might be confusing, so let's disect further.
+
+The `html` variable contains a special function which can parse template strings and turn them into templates we use in our app. Thus, `` html`<div>choo animals</div>` `` will return a new template and store it inside the `el` variable.
+
+## Creating a route
