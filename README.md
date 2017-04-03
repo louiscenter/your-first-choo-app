@@ -24,7 +24,7 @@ Today we're going to build an interactive animal simulator called `choo animals`
 
 This is what it looks like:
 
-[![screenshot](animals1.gif)](https://choo-animals.glitch.me)
+[![screenshot](animals.gif)](https://choo-animals.glitch.me)
 
 The user can click anywhere on the grass to add an animal to the field. Clicking on an animal will remove it from the field. The user can also filter which animals they see, using the filter links at the bottom of the page.
 
@@ -43,9 +43,7 @@ When the editor has finished loading, you should make your own copy of the proje
 
 Your screen should now looking something like the following:
 
-** BELOW IS PLACEHOLDER IMAGE **
-
-![browser-placeholder](browser-placeholder.png "Browser placeholder")
+![starter](starter-readme.png "Screenshot of starter code")
 
 ## Starting choo
 In our project's left sidebar, click on the `index.js` file to open its code in the code editor.
@@ -79,7 +77,7 @@ To do this, press the `Show` button near the top left hand corner of the window:
 
 A new browser window will open showcasing our application. However, as you'll see, the screen will be blank:
 
-![blank](browser-blank.png "Screenshot of blank browser")
+![blank](starter-blank.png "Screenshot of blank browser")
 
 Our application does not yet contain any templates, or any routes. This means that if we try to run our application, we will only ever see a blank page.
 
