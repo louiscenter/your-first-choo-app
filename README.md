@@ -24,11 +24,11 @@ Today we're going to build an interactive animal simulator called `choo animals`
 
 This is what it looks like:
 
-![screenshot](screenshot1.gif "Screenshot of choo animals")
+[![screenshot](animals1.gif)](https://choo-animals.glitch.me)
 
 The user can click anywhere on the grass to add an animal to the field. Clicking on an animal will remove it from the field. The user can also filter which animals they see, using the filter links at the bottom of the page.
 
-You can try it for yourself here: [https://choo-animals.glitch.com](https://choo-animals.glitch.com)
+You can try it for yourself here: [https://choo-animals.glitch.me](https://choo-animals.glitch.me)
 
 ## Let's get started!
 For this guide, we will be using an online code editor called [Glitch](https://glitch.com/).
