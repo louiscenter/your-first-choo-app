@@ -58,7 +58,7 @@ var choo = require('choo')
 var app = choo()
 
 // start app
-app.mount('body')
+app.mount('div')
 ```
 
 At the top of this file, we are importing the `choo` framework into our project using the `require()` function.
@@ -67,7 +67,7 @@ At the top of this file, we are importing the `choo` framework into our project 
 
 We then need to create an instance of `choo` that we build our app with. We initialize this instance using `choo()`, and then store it in the `app` variable. From this point onwards, when we interact with choo, it will be via `app`.
 
-Finally, we start our application by appending it on onto the `<body>` element of the HTML page our app will run on. We do this using the `app.mount()` method that `choo` conveniently makes available to us.
+Finally, we start our application by appending it on onto the `<div>` element of the HTML page our app will run on. We do this using the `app.mount()` method that `choo` conveniently makes available to us. If you open the `index.html` file, you'll see there is a single `<div>` element inside `<body>`. This is where `app.mount()` attaches our code onto.
 
 At this point, we can take a look at what our app currently looks like.
 
@@ -84,7 +84,6 @@ Our application does not yet contain any templates, or any routes. This means th
 Let's fix this.
 
 ## Building a template
-
 In web app development, a template often refers to a piece of code that will help us render some HTML to the screen. Being templates, they will render most of the same information each time, but change slightly depending on the different bits of input they receive.
 
 Templates are essentially functions: given some input, they will render a new output depending on what happens inside the function.
@@ -107,7 +106,7 @@ var app = choo()
 var el = html`<div>choo animals</div>`
 
 // start app
-app.mount('body')
+app.mount('div')
 ```
 
 Underneath our `choo` import near the top of the file, we're now also importing `choo`'s html helper. This becomes accessible via the `html` variable.
@@ -119,3 +118,41 @@ This line of code might be confusing, so let's disect further.
 The `html` variable contains a special function which can parse template strings and turn them into templates we use in our app. Thus, `` html`<div>choo animals</div>` `` will return a new template and store it inside the `el` variable.
 
 ## Creating a route
+When a friend links you to a specific page on a website, that URL acts as a route so the server knows where to direct you.
+
+Many JavaScript web apps use this same concept to figure out which template to show you at a given point within the application.
+
+This means that to see something on our page, we need to create a route that directs us to the template we just made:
+
+```js
+// ...
+// initialize choo
+var app = choo()
+
+// create a template
+var el = html`<div>choo animals</div>`
+
+// create a route
+app.route('/', el)
+
+// start app
+app.mount('div')
+```
+
+The `app.route()` function takes in two arguments, the first being the URL path you want to create (this should be specified as a string), and the second being the template you'd like to show users when they arrive at that path (usually a variable that references the template).
+
+As this is our first route, we will make it the "index" (or "root") of the entire application. We do this by specifying the route as `'/'`. This route would be the equivalant of visiting something like `https://choo.io` (the home page). Creating a route with the path `/cats` would be the equivalant of visiting `https://choo.io/cats`.
+
+As we change the code in Glitch's editor, our app's window should automatically update itself. If you open it, you should see the following:
+
+![first route](starter-first-route.png "Screenshot of first route")
+
+If your app hasn't updated yet, you can simply refresh the window yourself.
+
+Now that we can see text on the screen, this means that you successfully got `choo` working! Congratulations :)
+
+We're not finished yet, but let's quickly summarise what we've done so far:
+
+- First we initialised `choo`, and mounted it onto the page.
+- Then we created a template using `choo`'s HTML template function.
+- Finally, we created an index route (`/`), and pointed it to our newly made template.
