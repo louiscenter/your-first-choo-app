@@ -103,7 +103,9 @@ var html = require('choo/html')
 var app = choo()
 
 // create a template
-var el = html`<div>choo animals</div>`
+var el = function () {
+  return html`<div>choo animals</div>`
+}
 
 // start app
 app.mount('div')
@@ -111,11 +113,11 @@ app.mount('div')
 
 Underneath our `choo` import near the top of the file, we're now also importing `choo`'s html helper. This becomes accessible via the `html` variable.
 
-Towards the end of the file, we're creating a new template stored in the `el` variable that we'll use to render `<div>choo animals</div>` on our page.
+Towards the end of the file, we're creating a function, and assigning it to the `el` variable. Inside the function, we're returning a template that we'll use to render `<div>choo animals</div>` on our page.
 
-This line of code might be confusing, so let's disect further.
+This bit of code might be confusing, so let's disect further.
 
-The `html` variable contains a special function which can parse template strings and turn them into templates we use in our app. Thus, `` html`<div>choo animals</div>` `` will return a new template and store it inside the `el` variable.
+The `html` variable references a function that parses template strings containing HTML code (eg. `` html`<h1>choo</h1>` ``). A given template string will be interpreted into a special data structure, that `choo` then renders as HTML on the page.
 
 ## Creating a route
 When a friend links you to a specific page on a website, that URL acts as a route so the server knows where to direct you.
@@ -130,7 +132,9 @@ This means that to see something on our page, we need to create a route that dir
 var app = choo()
 
 // create a template
-var el = html`<div>choo animals</div>`
+var el = function () {
+  return html`<div>choo animals</div>`
+}
 
 // create a route
 app.route('/', el)
