@@ -103,7 +103,7 @@ var html = require('choo/html')
 var app = choo()
 
 // create a template
-var el = function () {
+var main = function () {
   return html`<div>choo animals</div>`
 }
 
@@ -113,7 +113,7 @@ app.mount('div')
 
 Underneath our `choo` import near the top of the file, we're now also importing `choo`'s html helper. This becomes accessible via the `html` variable.
 
-Towards the end of the file, we're creating a function, and assigning it to the `el` variable. Inside the function, we're returning a template that we'll use to render `<div>choo animals</div>` on our page.
+Towards the end of the file, we're creating a function, and assigning it to the `main` variable. Inside the function, we're returning a template that we'll use to render `<div>choo animals</div>` on our page.
 
 This bit of code might be confusing, so let's disect further.
 
@@ -132,12 +132,12 @@ This means that to see something on our page, we need to create a route that dir
 var app = choo()
 
 // create a template
-var el = function () {
+var main = function () {
   return html`<div>choo animals</div>`
 }
 
 // create a route
-app.route('/', el)
+app.route('/', main)
 
 // start app
 app.mount('div')
@@ -160,3 +160,4 @@ We're not finished yet, but let's quickly summarise what we've done so far:
 - First we initialised `choo`, and mounted it onto the page.
 - Then we created a template using `choo`'s HTML template function.
 - Finally, we created an index route (`/`), and pointed it to our newly made template.
+
