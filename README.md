@@ -161,3 +161,97 @@ We're not finished yet, but let's quickly summarise what we've done so far:
 - Then we created a template using `choo`'s HTML template function.
 - Finally, we created an index route (`/`), and pointed it to our newly made template.
 
+## Modularising our templates
+Just like we can `require()` third-party modules like `choo` into our application, we can break our code down into smaller pieces so that the different concerns of our app exist in their own neat little files.
+
+If we were to modularise what we currently have, it would likely be considered "pre-optimisation", since there's not much code there anyway. Attemps to break it out further would likely just increase complexity, but as we're about to add a lot of new markup to our `main` template in just a moment, let's go ahead and break it out into its own file.
+
+In Glitch's left sidebar, click the `+` icon next to `back-end`. Specify your new file's path as `components/main.js`, then click `Add File 👍`:
+
+![new file](starter-new-file.png "Screenshot of new file")
+
+This will create a new folder named `components`, then add a file called `main.js` inside of it. This file should now also appear in the sidebar.
+
+Let's add some code to our new `components/main.js` file:
+
+```js
+// import choo's template helper
+var html = require('choo/html')
+
+// export module
+module.exports = function () {
+  // create html template
+  return html`
+    <div class="container">
+      <div class="grass">
+        <img src="/assets/bg.gif" />
+      </div>
+    </div>
+  `
+}
+```
+
+What's happening here?
+
+First, we are importing `choo`'s html helper so that we can build a new template within this file.
+
+Next, we are assigning a function that returns a template to the variable called `module.exports`. What does this variable do exactly? In the context of this application, when we create JavaScript files that we'd like to import into other JavaScript files, whatever is assigned to `module.exports` is what will be exported out.
+
+Inside of our template code, we've added some markup that will display an image called `bg.gif` on the page.
+
+__*(NOTE: There are some asset files this project requires that you won't be able to see in Glitch's left sidebar. This image is an example of one those files. Other assets will crop up later in this tutorial, but I'll be sure to point them out to you.)*__
+
+Now let's `require()` this new template into our `index.js` file, and see the results.
+
+Start by adding this line towards the top of `index.js`:
+
+```js
+// ...
+// import choo's template helper
+var html = require('choo/html')
+
+// import template
+var main = require('./components/main.js')
+
+// initialize choo
+var app = choo()
+// ...
+```
+
+Underneath the line where we import `choo`'s html helper, we are now importing the `main.js` file we just created. Remembering that we exported a function that returns a template, we can now use that as the designated component for our `/` route.
+
+If we delete the `main` template that's currently located in `index.js`, that file should now look like this:
+
+```js
+// import choo
+var choo = require('choo')
+
+// import choo's template helper
+var html = require('choo/html')
+
+// import template
+var main = require('./components/main.js')
+
+// initialize choo
+var app = choo()
+
+// create a route
+app.route('/', main)
+
+// start app
+app.mount('div')
+```
+
+If we look at our application now, we should now see the following:
+
+![grass](starter-grass.png "Screenshot of grass")
+
+Awesome! Let's recap what we just did:
+
+- We created a file called `main.js` inside of a new folder called `components`.
+- Inside `main.js`, we created a new template function and then exported it using `module.exports`.
+- We imported `main.js` into `index.js`, and then plugged it into our `/` route.
+
+Now that we have a nice grass field to play in, let's start adding some animals.
+
+## Adding state to our application
