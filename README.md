@@ -371,3 +371,78 @@ That was a lot to digest, so let's quickly go over what we just did:
 - Inside of `app.use()`, we then initialized our app's `state` object by describing the type and coordinates of an animal.
 - Then, we updated our `main.js` template to reflect the information stored in state.
 - As a result, an animal is now rendered on the screen.
+
+It would be cool to have more animals roaming around without copying and pasting additional `<img>` elements into our template. Instead, we should add more animals into our state, then have our template reflect those changes.
+
+## Rendering templates with loops
+The `state.animals` property currently refers to a single object, representing one animal. If we want to render multiple animals on the screen, we'd need a way of representing multiple animals inside this property.
+
+Using an array, we can store multiple objects inside of it, each representing an animal that the user should see.
+
+Let's head to `index.js` and update our initialized state to reflect this change:
+
+```js
+// ...
+
+// initialize choo
+var app = choo()
+
+app.use(function (state) {
+  // initialize state
+  state.animals = [
+    {type: 'lion', x: 100, y: 200},
+    {type: 'crocodile', x: 300, y: 50}
+  ]
+}
+
+// declare routes
+app.route('/', main)
+
+// ...
+```
+
+`state.animals` now refers to both a Lion and a Crocodile, but `components/main.js` also needs to be updated to handle this restructuring.
+
+Our template should render each animal regardless of how many there are in state. To do this, we can program our template to iterate across `state.animals`, rendering a block of HTML for each animal that exists in the array.
+
+First, let's create a new file in Glitch with the filepath `components/animal.js`. This template will represent a single animal, and will be used to iterate over `state.animals` inside of `components/main.js`.
+
+Let's wire up `components/animal.js` with the following code:
+
+```js
+var html = require('choo/html')
+
+module.exports = function (animal) {
+  var type = animal.type
+  var x = animal.x
+  var y = animal.y
+
+  // create html template
+  return html`
+    <img src="/assets/${type}.gif" tyle="top: ${x}px; left: ${y}px;">
+  `
+}
+```
+
+This code you've seen before, as it already exists in `components/main.js`. We're breaking this template out into its own function so that we can refer to it each time we iterate over `state.animals`. Let's do that now by updating `components/main.js`:
+
+```js
+var html = require('choo/html')
+var animal = require('./animal.js')
+
+// export module
+module.exports = function (state) {
+  // create html template
+  return html`
+    <div class="container">
+      <div class="grass">
+        <img src="/assets/bg.gif" />
+        ${state.animals.map(animal)}
+      </div>
+    </div>
+  `
+}
+```
+
+[WIP finish section...]
+
