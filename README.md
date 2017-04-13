@@ -86,7 +86,7 @@ Let's fix this.
 ## Building a template
 In web app development, a template often refers to a piece of code that will help us render some HTML to the screen. Being templates, they will render most of the same information each time, but change slightly depending on the different bits of input they receive.
 
-Templates are essentially functions: given some input, they will render a new output depending on what happens inside the function.
+Templates are essentially functions: given some input, they will render a new output depending on what happens inside that function.
 
 `choo` provides another module we can import that will help us build HTML templates with "template strings", one of JavaScript's newer syntax features.
 
@@ -157,20 +157,20 @@ Now that we can see text on the screen, this means that you successfully got `ch
 
 We're not finished yet, but let's quickly summarise what we've done so far:
 
-- First we initialised `choo`, and mounted it onto the page.
-- Then we created a template using `choo`'s HTML template function.
+- First, we initialised `choo`, and mounted it onto the page.
+- We then created a template using the `choo/html` template function.
 - Finally, we created an index route (`/`), and pointed it to our newly made template.
 
 ## Modularising our templates
 Just like we can `require()` third-party modules like `choo` into our application, we can break our code down into smaller pieces so that the different concerns of our app exist in their own neat little files.
 
-If we were to modularise what we currently have, it would likely be considered "pre-optimisation", since there's not much code there anyway. Attemps to break it out further would likely just increase complexity, but as we're about to add a lot of new markup to our `main` template in just a moment, let's go ahead and break it out into its own file.
+If we were to modularise what we currently have, it would likely be considered "pre-optimisation", since there's not much code there anyway. Attempts to break it out further would likely just increase complexity, but as we're about to add a lot of new markup to our `main` template in just a moment, let's go ahead and break it out into its own file.
 
 In Glitch's left sidebar, click the `+` icon next to `back-end`. Specify your new file's path as `components/main.js`, then click `Add File 👍`:
 
 ![new file](starter-new-file.png "Screenshot of new file")
 
-This will create a new folder named `components`, then add a file called `main.js` inside of it. This file should now also appear in the sidebar.
+First this creates a new folder named `components`, and then adds a file called `main.js` inside of it. This file should now appear in the sidebar.
 
 Let's add some code to our new `components/main.js` file:
 
@@ -242,16 +242,132 @@ app.route('/', main)
 app.mount('div')
 ```
 
-If we look at our application now, we should now see the following:
+If we look at our application, we should now see the following:
 
 ![grass](starter-grass.png "Screenshot of grass")
 
 Awesome! Let's recap what we just did:
 
-- We created a file called `main.js` inside of a new folder called `components`.
+- First, we created a file called `main.js` inside of a new folder called `components`.
 - Inside `main.js`, we created a new template function and then exported it using `module.exports`.
-- We imported `main.js` into `index.js`, and then plugged it into our `/` route.
+- Finally, we imported `main.js` into `index.js`, and then plugged it into our `/` route.
 
 Now that we have a nice grass field to play in, let's start adding some animals.
 
 ## Adding state to our application
+A core behaviour of many modern web applications is that they can be entirely driven and interacted with, without having to refresh or navigate to another static HTML page.
+
+When you browse a website like [Wikipedia](https://wikipedia.org) or [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/JavaScript), each new page you navigate to, or each piece of functionality you interact with, will require a new page from the server to load in your browser.
+
+In `choo`, the idea is that when information is changed or new information becomes available, the page will automatically update itself to reflect that, much in the same way that a native desktop or mobile application would.
+
+To do this, `choo` uses the concept of "application state" to drive the output of its templates. This could mean absolutely nothing to you right now, so it's a good opportunity to dive further into what "state" is and how it works.
+
+In programming, it's commonplace for a script to have several variables which contain information that you pass into a function. A function will typically do the same thing each time you run it, so when you pass the same variables in as arguments again and again, it will keep returning the same result:
+
+```js
+var obj = { fun: true, name: 'Alice' }
+
+function sentence() {
+  if (fun) {
+    console.log(`Yay! ${name} is having fun!`)
+  } else {
+    console.log(`Oh no, ${name} is not having fun.`)
+  }
+}
+
+sentence()
+sentence()
+sentence()
+
+// the following is logged to screen:
+// "Yay! Alice is having fun!"
+```
+
+As mentioned earlier in this guide:
+
+*"Templates are essentially functions: given some input, they will render a new output depending on what happens inside that function."*
+
+In `choo`, state is passed down into our templates so that we can change what our templates do depending on what is currently contained in that state.
+
+Let's demonstrate this concept by adding new code to our `index.js` file:
+
+```js
+// ...
+
+// initialize choo
+var app = choo()
+
+app.use(function (state) {
+  // initialize state
+  state.animals = {type: 'lion', x: 100, y: 200}
+}
+
+// declare routes
+app.route('/', main)
+
+// ...
+```
+
+Underneath our initialization of `choo`, we are calling `app.use()` and passing a function into it. The function we pass in receives a `state` object which represents the state of our entire application. Although it has a wider scope of usage, for now we can just call `app.use()` when we want to setup the initial parameters of our application's state.
+
+Inside of `app.use()`, we're creating a new property on the `state` object called `state.animals`. We're then assigning it an object that contains some parameters we'll use to place a new animal on our screen: `type` sets which animal we want, and the `x` and `y` properties will dictate the animal's position coordinates.
+
+## Passing state into our templates
+Now that we've set a new property on our state object, we can access this state from any templates that our router calls.
+
+Let's flip over to `components/main.js`, and update our template function:
+
+```js
+// import choo's template helper
+var html = require('choo/html')
+
+// export module
+module.exports = function (state) {
+  var type = state.animals.type
+  var x = state.animals.x
+  var y = state.animals.y
+
+  // create html template
+  return html`
+    <div class="container">
+      <div class="grass">
+        <img src="/assets/bg.gif" />
+        <img src="/assets/${type}.gif" style="top: ${x}px; left: ${y}px;" />
+      </div>
+    </div>
+  `
+}
+```
+
+A few things have changed, so let's briefly dive in to see what's happening:
+
+First, the function that we're exporting now takes in an argument called `state`. This is same `state` object we were dealing with in `index.js`, after it has been run through `app.use()`. This means that the `state.animal` property is now available to us inside this template.
+
+Inside the function, we're initializing a set of variables that point to the different part of our `state.animals` object. Then, inside of our template string, we've created a new `<img>` element. This `<img>` will represent an animal we place on screen. 
+
+As mentioned earlier, we have several different images located inside an invisible `assets` folder in Glitch. They are:
+
+- `assets/bg.gif`
+- `assets/crocodile.gif`
+- `assets/koala.gif`
+- `assets/lion.gif`
+- `assets/tiger.gif`
+- `assets/walrus.gif`
+
+We can use the `state.animals.type` property that has been passed into our template to point to the correct image we need to render the animal on screen (`src="/assets/${type}.gif"`).
+
+We can then set a `style` property on the same `<img>` element to position the animal using `top` and `left`. These correspond to our `state.animals.x` and `state.animals.y` values.
+
+If we look at our application now, you should see something cute like this:
+
+![first animal](starter-first-animal.png "Screenshot of first animal")
+
+Nice! A super sweet lion has decided to come and hang out with us while we code :)
+
+That was a lot to digest, so let's quickly go over what we just did:
+
+- First, we setup `app.use()` in our `index.js` file.
+- Inside of `app.use()`, we then initialized our app's `state` object by describing the type and coordinates of an animal.
+- Then, we updated our `main.js` template to reflect the information stored in state.
+- As a result, an animal is now rendered on the screen.
