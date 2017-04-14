@@ -300,7 +300,7 @@ var app = choo()
 
 app.use(function (state) {
   // initialize state
-  state.animals = {type: 'lion', x: 100, y: 200}
+  state.animals = {type: 'lion', x: 200, y: 100}
 }
 
 // declare routes
@@ -333,7 +333,7 @@ module.exports = function (state) {
     <div class="container">
       <div class="grass">
         <img src="/assets/bg.gif" />
-        <img src="/assets/${type}.gif" style="top: ${x}px; left: ${y}px;" />
+        <img src="/assets/${type}.gif" style="left: ${x}px; top: ${y}px;" />
       </div>
     </div>
   `
@@ -359,7 +359,7 @@ We can use the `state.animals.type` property that has been passed into our templ
 
 Then, we can set a `style` property on the same `<img>` element to position the animal using `top` and `left`. These correspond to our `state.animals.x` and `state.animals.y` values.
 
-You've probably noticed the interesting `${}` syntax being used inside of our template strings. If you're not already familiar with them, these are called expressions. By placing short JavaScript expressions inside these curly braces, the code will be evaluated and replaced with its returned value. In this case, `${type}` will evaluate to `'lion'`, `${x}` will evaluate to `100`, and so on.
+You've probably noticed the interesting `${}` syntax being used inside of our template strings. If you're not already familiar with them, these are called expressions. By placing short JavaScript expressions inside these curly braces, the code will be evaluated and replaced with its returned value. In this case, `${type}` will evaluate to `'lion'`, `${x}` will evaluate to `200`, and so on.
 
 If we look at our application now, you should see something cute like this:
 
@@ -393,8 +393,8 @@ var app = choo()
 app.use(function (state) {
   // initialize state
   state.animals = [
-    {type: 'lion', x: 100, y: 200},
-    {type: 'crocodile', x: 300, y: 50}
+    {type: 'lion', x: 200, y: 100},
+    {type: 'crocodile', x: 50, y: 300}
   ]
 }
 
@@ -422,7 +422,7 @@ module.exports = function (animal) {
 
   // create html template
   return html`
-    <img src="/assets/${type}.gif" style="top: ${x}px; left: ${y}px;">
+    <img src="/assets/${type}.gif" style="left: ${x}px; top: ${y}px;">
   `
 }
 ```
@@ -607,4 +607,112 @@ We can use the `state` object to render useful bits of information inside of our
 We can use the `emit()` function to trigger updates to our `state` object, from our templates. If we register `emitter.on('cats')` inside of `app.use()`, this can be triggered by `emit('cats')` somewhere else.
 
 Finally, if we want to trigger an event by clicking on an element in one of our templates, we can register a function on that element using the `onclick` property (eg. `<div onclick=${update}></div>`).
+
+## Passing data to state
+Although our app is now interactive, it's not as fun as it could be.
+
+When we add an animal to our `state` object, we're adding the same animal (a lion), and giving it the same coordinates each time. To make this more interesting, when a new animal is created, our app should randomly choose from a set of different animals, and position it relative to where we clicked the grass with our cursor.
+
+To do this, we need a way to pass information to our state from our templates. This can be done via the event handlers we are triggering.
+
+Looking at our `components/main.js` file, we are executing our declared `add()` function when we click on the image of the grass. Inside of this function, we're executing `emit('add')`, which tells our handler back in `index.js` to update our `state` object.
+
+`emit()` actually accepts two arguments:
+
+- The first, which we already know, is the name of the event we'd like to trigger (eg. `'add'`).
+
+- The second is any data we'd like to pass through to the function on the other end.
+
+Let's update our `add()` function in `components/main.js`:
+
+```js
+// ...
+
+function add (e) {
+  var x = e.offsetX - 20
+  var y = e.offsetY - 10
+
+  var obj = {x: x, y: y}
+  emit('add', obj)
+}
+
+// ...
+```
+
+Now, when `add()` executes after you click the grass, two new things are happening:
+
+- First, we are grabbing the `offsetX` and `offsetY` information from the click event *(notice that `e`, the click event object, is now passed into this function)*. This tells us where we clicked our mouse, relative to the image of the grass. We're slightly adjusting these values to compensate for the cursor itself.
+
+- Then, we are calling `emit()`, specifying the name of the event listener we'd like to trigger, but also passing in an object that contains the `x` and `y` coordinates of where we clicked.
+
+Let's go back to `index.js` and make some changes to our `emitter.on('add')` function:
+
+```js
+// ...
+
+// add animal
+emitter.on('add', function (data) {
+  var x = data.x
+  var y = data.y
+
+  var obj = {type: 'lion', x: x, y: y}
+  state.animals.push(obj)
+
+  emitter.emit('render')
+})
+
+// ...
+```
+
+The function that we pass into this event listener, now takes in a new argument: `data`. This value represents the information that we passed into `emit()` back in `components/main.js` (the `x` and `y` coordinates).
+
+We can then construct an object with our coordinates, push this to `state.animals`, then re-render the screen.
+
+We did mention earlier that we'd like to randomly create a new type of animal each time, so let's update our code again to reflect that:
+
+```js
+// ...
+
+// add animal
+emitter.on('add', function (data) {
+  var animals = ['crocodile', 'koala', 'lion', 'tiger', 'walrus']
+
+  var type = Math.floor(Math.random() * 5)
+  var x = data.x
+  var y = data.y
+
+  var obj = {type: animals[type], x: x, y: y}
+  state.animals.push(obj)
+
+  emitter.emit('render')
+})
+
+// ...
+```
+
+Now before pushing a new object to `state.animals`, we randomly select an index from an array of 5 names, and use this as our animal's `type` property.
+
+If we switch over to our application again, and begin clicking different areas of the grass, we should see something like this:
+
+![random animals](starter-random-animals.gif "Screenshot of random animals")
+
+*LOOK AT HOW CUTE THEY ALL ARE* 😍
+
+Take a moment to appreciate everything you've just built! Our `choo` app is really starting to shape up 😊
+
+Let's quickly revisit what we accomplished in this last section:
+
+- In our template (`components/main.js`), we obtained the `x` and `y` coordinates of our mouse click event.
+
+- We then passed this information through to the `add` event listener using `emit('add', obj)`.
+
+- Over in `index.js`, we received this data inside our `emitter.on('add')` handler as `data`, and proceeded to push this into our `state.animals` array. 
+
+At this point, we've made a super fun interactive `choo` app that we can share with all our friends! 👭
+
+Remember, you can send the link of your Glitch app to anyone who'd like to play with your app, or hack on your code with you.
+
+![share](starter-share.png "Screenshot of share")
+
+Now that we're on a roll, let's think of a way to build our next feature: removing animals from our app.
 
