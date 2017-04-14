@@ -357,7 +357,9 @@ As mentioned earlier, we have several different images located inside an invisib
 
 We can use the `state.animals.type` property that has been passed into our template to point to the correct image we need to render the animal on screen (`src="/assets/${type}.gif"`).
 
-We can then set a `style` property on the same `<img>` element to position the animal using `top` and `left`. These correspond to our `state.animals.x` and `state.animals.y` values.
+Then, we can set a `style` property on the same `<img>` element to position the animal using `top` and `left`. These correspond to our `state.animals.x` and `state.animals.y` values.
+
+You've probably noticed the interesting `${}` syntax being used inside of our template strings. If you're not already familiar with them, these are called expressions. By placing short JavaScript expressions inside these curly braces, the code will be evaluated and replaced with its returned value. In this case, `${type}` will evaluate to `'lion'`, `${x}` will evaluate to `100`, and so on.
 
 If we look at our application now, you should see something cute like this:
 
@@ -370,7 +372,8 @@ That was a lot to digest, so let's quickly go over what we just did:
 - First, we setup `app.use()` in our `index.js` file.
 - Inside of `app.use()`, we then initialized our app's `state` object by describing the type and coordinates of an animal.
 - Then, we updated our `main.js` template to reflect the information stored in state.
-- As a result, an animal is now rendered on the screen.
+
+As a result, an animal is now rendered on the screen.
 
 It would be cool to have more animals roaming around without copying and pasting additional `<img>` elements into our template. Instead, we should add more animals into our state, then have our template reflect those changes.
 
@@ -401,7 +404,7 @@ app.route('/', main)
 // ...
 ```
 
-`state.animals` now refers to both a Lion and a Crocodile, but `components/main.js` also needs to be updated to handle this restructuring.
+`state.animals` now refers to both a Lion and a Crocodile, but `components/main.js` also needs to be updated to handle this restructure.
 
 Our template should render each animal regardless of how many there are in state. To do this, we can program our template to iterate across `state.animals`, rendering a block of HTML for each animal that exists in the array.
 
@@ -419,12 +422,12 @@ module.exports = function (animal) {
 
   // create html template
   return html`
-    <img src="/assets/${type}.gif" tyle="top: ${x}px; left: ${y}px;">
+    <img src="/assets/${type}.gif" style="top: ${x}px; left: ${y}px;">
   `
 }
 ```
 
-This code you've seen before, as it already exists in `components/main.js`. We're breaking this template out into its own function so that we can refer to it each time we iterate over `state.animals`. Let's do that now by updating `components/main.js`:
+This code you've seen before, as it already exists inside of `components/main.js`. We're breaking this template out into its own function so that we can refer to it each time we iterate over `state.animals`. Let's do that now by updating `components/main.js`:
 
 ```js
 var html = require('choo/html')
@@ -444,5 +447,36 @@ module.exports = function (state) {
 }
 ```
 
-[WIP finish section...]
+In `components/main.js`, we've replaced the HTML markup we shifted into `components/animal.js` with `${state.animals.map(animal)}`. What is happening here?
 
+In JavaScript, arrays come with a built-in method called `map()`. When we call `map()`, we also pass into it another function which is executed against every item in the array. Each time the function runs, the current item is passed in as an argument. When `map()` is finished running, it will return a new array with each function's return value.
+
+For example:
+
+```js
+var array = [1, 2, 3]
+var newArray = array.map(function (num) {
+  return 1 * 2
+})
+
+console.log(newArray)
+// [2, 4, 6]
+```
+
+In the context of our application, we are using `map()` to iterate across each animal in our `state.animals` array. By passing in our `components/animal.js` template into `map()`, we can then create a new array of templates that each represent an animal. These are then rendered in place of `${state.animals.map(animal)}`.
+
+If you look again inside of `components/animal.js`, you'll see that an `animal` is passed in as an argument each time the exported function is run. We are then grabbing the `type` and `x/y` information of the animal currently being iterated on, and returning that new template.
+
+If we now look at our application, we should see that a new friend has arrived!
+
+![second animal](starter-second-animal.png "Screenshot of second animal")
+
+Now is a good time to quickly summarise what we just did:
+
+- First, we changed our state to reflect not just one animal (a single object), but many animals (an array of objects).
+- We then created a new template (`components/animal.js`) which outputs an `<img>` element, representing one animal.
+- Finally, using JavaScript's `map()` function, we "mapped" across `state.animals` inside our `components/main.js` template. This allowed us to render each animal inside of `state.animals` to the screen.
+
+It would be nice if we could add new animals to our application simply by clicking somewhere on the grass, rather than having to update our code by hand to reflect this. Let's figure out a way to update our `state` directly from our templates.
+
+## Updating state
