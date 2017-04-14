@@ -480,3 +480,131 @@ Now is a good time to quickly summarise what we just did:
 It would be nice if we could add new animals to our application simply by clicking somewhere on the grass, rather than having to update our code by hand to reflect this. Let's figure out a way to update our `state` directly from our templates.
 
 ## Updating state
+As mentioned several times already, *"templates are functions. Their output will change depending on their input"*.
+
+In the last section of this guide, we began passing our application's state down into our templates. Specifically, their output now depends on what is contained in `state.animals`.
+
+What would happen if we changed the contents of our state, while the application is still running? Let's find out!
+
+Looking at our `index.js` file, we initialize our state by passing a function into `app.use()` that modifies the `state` object. If we could run another function inside of this same function, but trigger it directly from our template, we can then update our state at any point in time, which should also update what we see on the screen.
+
+Let's update `index.js` (specifically, our `app.use()` function):
+
+```js
+// ...
+
+app.use(function (state, emitter) {
+  // initialize state
+  state.animals = [
+    {type: 'lion', x: 100, y: 200},
+    {type: 'crocodile', x: 300, y: 50}
+  ]
+
+  // add animal
+  emitter.on('add', function () {
+    var obj = {type: 'lion', x: 200, y: 100}
+    state.animals.push(obj)
+
+    emitter.emit('render')
+  })
+})
+
+// ...
+```
+
+In this code block, we've introduced a new object called `emitter`, which is available to us inside of the function we pass into `app.use()`.
+
+`emitter` is what we could refer to as either an "event bus" or a "message bus". It listens for events that occur in other parts of our application, and reacts to them by executing a function.
+
+Underneath our initialization of `state.animals`, we're calling `emitter.on()`. This function takes two arguments:
+
+- The name of the "event" you're listening for (specified as a string. We chose `add`, but this can be whatever we like.)
+- A function that will run when the event is triggered 
+
+Inside the function, we're creating a new lion object, and pushing it into our `state.animals` array. At this point, our state has now been modified, but we then need to tell `choo` to re-render our templates to reflect these changes.
+
+To do this, we're calling `emitter.emit('render')`. This triggers a pre-configured event handler inside of `choo`, that tells the app to re-render the page.
+
+With this all set up, we now need a way to trigger the `add` event handler from one of our templates.
+
+Let's update our template inside of `components/main.js` to show the following:
+
+```js
+var html = require('choo/html')
+var animal = require('./animal.js')
+
+// export module
+module.exports = function (state, emit) {
+  // create html template
+  return html`
+    <div class="container">
+      <div class="grass">
+        <img src="/assets/bg.gif" onclick=${add} />
+        ${state.animals.map(animal)}
+      </div>
+    </div>
+  `
+
+  // add new animal to state
+  function add () {
+    emit('add')
+  }
+}
+```
+
+There are three significant updates to this file:
+
+- As well as passing `state` into our function, we're now also passing in `emit`.
+
+- Our `<img>` element now has an `onclick` property. This means that when the user clicks the image of the grass, a function called `add` will be triggered.
+
+- Below our template, we're declaring the `add` function referred to in our `<img>` element's `onclick` property. Inside, we're triggering `emit('add')`, which will cause our `add` event handler, back in `index.js`, to execute.
+
+If we switch to our application again, and click on the grass, a new lion should appear:
+
+![third animal](starter-third-animal.gif "Screenshot of third animal")
+
+Awesome! We now have our very first interactive `choo` app. 😊
+
+We're not quite done yet, but we just implemented a lot of really cool new functionality, so let's dive deeper to understand exactly what's going on.
+
+`index.js` holds the state of our application, which is handled via the function we pass into `app.use()`. This function receives two arguments, `state` & `emitter`.
+
+```js
+// example
+app.use(function (state, emitter) (
+  state.number = 1
+
+  emitter.on('changeNumber', function () {
+    state.number = 2
+  })
+})
+```
+
+The `state` object contains the data structures that drive our application. The rendered output of our templates change depending on what this data holds.
+
+We then use the `emitter` object to register functions that react to the execution of events elsewhere in our application. The names of the events we register can be anything we like. As they are registered inside of the function we pass into `app.use()`, they have the ability to modify the `state` object directly.
+
+In `components/main.js`, we have access to both the `state` object, and an `emit` function. These are both passed into any template functions that are registered with a route (eg. `app.route('/', main)`).
+
+```js
+// example
+module.exports = function (state, emit) {
+  return html`
+    <div onclick=${update}>
+      ${state.number}
+    </div>
+  `
+
+  function update () {
+    emit('changeNumber')
+  }
+})
+```
+
+We can use the `state` object to render useful bits of information inside of our templates. We can also continue passing that information further down into child templates.
+
+We can use the `emit()` function to trigger updates to our `state` object, from our templates. If we register `emitter.on('cats')` inside of `app.use()`, this can be triggered by `emit('cats')` somewhere else.
+
+Finally, if we want to trigger an event by clicking on an element in one of our templates, we can register a function on that element using the `onclick` property (eg. `<div onclick=${update}></div>`).
+
