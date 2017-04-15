@@ -1,32 +1,26 @@
-# NOTE
-This guide is a WIP. You can review the final app's code here: [https://glitch.com/edit/#!/project/choo-animals](https://glitch.com/edit/#!/project/choo-animals)
-
 # your first choo app
-This page will guide you through your first steps as you build an interactive web app with `choo`.
+✨ This guide will take you through your first steps as you build an interactive web app with `choo` ✨
 
-## Who is this for?
-If you're comfortable with the basics of JavaScript, but you've never built an interactive web app before, this guide is for you.
+## Who is guide this for?
+If you're comfortable with the basics of JavaScript, HTML & CSS, but you've never built an interactive web app before, this guide is for you. 🤔
 
-If you are a seasoned JavaScript developer with experience in other frameworks, and are looking to try `choo` for the first time, this guide is also for you.
-
-## Requirements
-This guide will assume you are comfortable with the basics of JavaScript, HTML, and CSS.
+If you are a seasoned JavaScript developer with experience in other frameworks, and are looking to try `choo` for the first time, this guide is also for you. 😎
 
 ## What is choo?
 `choo` is a small framework that helps you build web apps with JavaScript.
 
-JavaScript makes it easier to add fun interactive elements to our HTML pages. As the language has gained in popularity, developers are now choosing to build their websites entirely with JavaScript. This offers many benefits to both users and developers, most notably that websites can now behave similarly to native desktop or mobile applications.
+JavaScript makes it easy to add fun interactive elements to our HTML pages. As the language has gained in popularity, developers are now choosing to build their websites entirely with JavaScript. This offers many benefits to both users and developers, most notably that websites can now behave similarly to native desktop or mobile applications.
 
-`choo` provides a small but powerful collection of tools that commonly feature in JavaScript web apps, such as templating, routing, and state management. By the end of this guide, you will understand what these terms mean. Don't be concerned if you don't already know what they are. This is why you are here! :)
+`choo` provides a small but powerful collection of tools that commonly feature in JavaScript web apps, such as templating, routing, and state management. By the end of this guide, you will understand what these terms mean. Don't be concerned if you don't already know what they are. This is why you are here! 😊
 
 ## What will we build?
-Today we're going to build an interactive animal simulator called `choo animals`. It will be informative, cute, but most of all, fun!
+For this guide, we're going to build an interactive animal simulator called `choo-animals`. It will be informative, cute, but most of all, fun! 🦁
 
 This is what it looks like:
 
 [![screenshot](animals.gif)](https://choo-animals.glitch.me)
 
-The user can click anywhere on the grass to add an animal to the field. Clicking on an animal will remove it from the field. The user can also filter which animals they see, using the filter links at the bottom of the page.
+The user can click anywhere on the grass to add an animal to the screen. Clicking on an animal will remove it from the screen. The user can also filter which animals they see, using the filter links at the bottom of the page.
 
 You can try it for yourself here: [https://choo-animals.glitch.me](https://choo-animals.glitch.me)
 
