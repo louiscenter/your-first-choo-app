@@ -794,7 +794,7 @@ module.exports = function (emit, animal, i) {
   // remove animal from state
   function remove (e) {
     var index = e.target.id
-    emit('removeAnimal, index)
+    emit('removeAnimal', index)
   }
 }
 ```
