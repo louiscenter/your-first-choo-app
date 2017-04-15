@@ -611,7 +611,7 @@ Finally, if we want to trigger an event by clicking on an element in one of our 
 ## Passing data to state
 Although our app is now interactive, it's not as fun as it could be.
 
-When we add an animal to our `state` object, we're adding the same animal (a lion), and giving it the same coordinates each time. To make this more interesting, when a new animal is created, our app should randomly choose from a set of different animals, and position it relative to where we clicked the grass with our cursor.
+When we add an animal to our `state` object, we're adding the same animal (a lion), and giving it the same coordinates each time. To make this more interesting, when a new animal is created, our app should randomly choose from a set of different animals, and position it with the same coordinates as our cursor.
 
 To do this, we need a way to pass information to our state from our templates. This can be done via the event handlers we are triggering.
 
@@ -715,4 +715,145 @@ Remember, you can send the link of your Glitch app to anyone who'd like to play 
 ![share](starter-share.png "Screenshot of share")
 
 Now that we're on a roll, let's think of a way to build our next feature: removing animals from our app.
+
+## Removing data from state
+If we can add an animal to the grass field by clicking in a particular location, we should also be able to click on the animal itself and remove it from the screen.
+
+This means that instead of updating `state.animals` by adding a new item to its array, we would instead need to remove the item that correlates to the animal that was clicked.
+
+Let's start by opening `components/main.js` and update its code:
+
+```js
+var html = require('choo/html')
+var animal = require('./animal')
+
+module.exports = function (state, emit) {
+  // create html template
+  return html`
+    <div class="container">
+      <div class="grass">
+        <img src="/assets/bg.gif" onclick=${add} />
+        ${state.animals.map(showAnimals)}
+      </div>
+    </div>
+  `
+
+  // add new animal to state
+  function add (e) {
+    var x = e.offsetX - 20
+    var y = e.offsetY - 10
+
+    emit('add', {x: x, y: y})
+  }
+
+  function showAnimals (obj, i) {
+    return animal(emit, obj, i)
+  }
+}
+```
+
+First, we created a new function called `showAnimals()`, which returns our `components/animal.js` template:
+
+```js
+function showAnimals (obj, i) {
+  return animal(emit, obj, i)
+}
+```
+
+Then, closer to the top of the file, we're now passing the function we just created into `state.animals.map`, rather than the `components/animal.js` template itself:
+
+```js
+${state.animals.map(showAnimals)}
+```
+
+You may have noticed that we're now passing some new arguments into our `components/animal.js` template, via the `showAnimals()` function, before we run it through `map()`. Why are we doing this?
+
+To be able to build a deletion feature, our `components/animal.js` template needs access to some extra functions and information. To be able to tell `choo` to update our application's state, our template will need access to the `emit()` function when it's clicked. We are passing `emit` into `components/animal.js` as our first argument. Our second argument is `obj`, which represents the animal that `map()` is iterating across. The final argument, `i`, represents the index number of the current `map()` iteration. 
+
+These changes may seem confusing and abstract at first. Don't worry! 😊 Our next move will hopefully tie these changes together.
+
+Let's open `components/animal.js`, and update its code:
+
+```js
+var html = require('choo/html')
+
+module.exports = function (emit, animal, i) {
+  var type = animal.type
+  var x = animal.x
+  var y = animal.y
+
+  // create html template
+  return html`
+    <img src="/assets/${type}.gif" style="left: ${x}px; top: ${y}px;" id=${i} onclick=${remove}>
+  `
+
+  // remove animal from state
+  function remove (e) {
+    var index = e.target.id
+    emit('remove', index)
+  }
+}
+```
+
+We've added a lot of new code to this file, so lets breakdown exactly what's happening:
+
+- This template function, when called from `components/main.js`, now accepts the three arguments we described above: `choo`'s `emit()` function, the current `animal` we're iterating over, and the index number of the current animal, represented as `i`.
+
+- We've added an `id` property to our `<img>` element, which accepts the value of `i`. We use this to identify which animal we are clicking, and where it sits within our `state.animals` array.
+
+- We've also added an `onclick` handler to our `<img>` element, which will trigger a function called `remove()`.
+
+- Below, we're declaring the `remove()` function our `onclick` handler references. It grabs the value of the `id` property of the `<img>` we just clicked, and sends it to an event handler using `choo`'s `emit()` function.
+
+When we call `emit()`, we refer to an event handler called `'remove'`. This handler is what will update our `state.animals` array for us. We need to create this handler, before our feature is complete.
+
+Let's open `index.js`, and update the function we pass into `app.use()`:
+
+```js
+// ...
+
+app.use(function (state, emitter) {
+  // initialize state
+  state.animals = [
+    { type: 'lion', x: 200, y: 100 },
+    { type: 'crocodile', x: 50, y: 300 }
+  ]
+
+  // add animal
+  emitter.on('add', function (data) {
+    var animals = ['crocodile', 'koala', 'lion', 'tiger', 'walrus']
+
+    var type = Math.floor(Math.random() * 5)
+    var x = data.x
+    var y = data.y
+
+    var obj = { type: animals[type], x: x, y: y }
+    state.animals.push(obj)
+
+    emitter.emit('render')
+  })
+
+  // remove animal
+  emitter.on('remove', function (i) {
+    state.animals.splice(i, 1)
+    emitter.emit('render')
+  })
+})
+
+// ...
+```
+
+Towards the bottom of this function, we've added `emitter.on('remove')`. When we run `emit('remove')` from `components/animal.js`, this is the block of code it triggers. It takes the index number of the animal that we clicked (this was stored on the `<img>`'s `id` property), and removes it from `state.animals` using JavaScript's built-in `splice()` function.
+
+Afterwards, we run `emitter.emit('render')`, which tells `choo` to re-render the screen.
+
+Let's check our application, and see if this works:
+
+![deletion](starter-delete-animals.gif "Screenshot of deletion")
+
+Cool! We can add animals to our screen, and also remove them. ✨ Talk about cuteness overload ✨
+
+If we added a large number of animals to our plot of grass, it would be useful if we could filter the screen so we only see a specific type of animal.
+
+Let's build this final feature to round out this guide, and finish our `choo-animals` application!
 
