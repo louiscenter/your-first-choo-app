@@ -857,3 +857,94 @@ If we added a large number of animals to our plot of grass, it would be useful i
 
 Let's build this final feature to round out this guide, and finish our `choo-animals` application!
 
+## Creating dynamic routes
+Before we create this new filter, let's first specify how we'd like the functionality to work.
+
+At present, our application works entirely from one route (`'/'`). It would be cool to build a second route that allows us to dynamically specify which animal we'd like to filter for. What does this mean?
+
+Our app can currently choose from five different animals to add to the screen. Rather than creating five different routes, one to filter each animal (eg. `app.route('/filter/lion'), app.route('/filter/tiger')`), we can create one route that handles any type of animal we ask for.
+
+Below our first and only route in `index.js`, let's add a second one:
+
+```js
+// ...
+
+// declare routes
+app.route('/', main)
+app.route('/filter/:type', main)
+
+// start app
+app.mount('div')
+```
+
+You may have noticed that the route we just declared (`/filter/:type`) looks slightly funny. What does `:type` mean?
+
+If we clicked on a link in our application that directed us to `/filter/lion`, or `/filter/tiger`, we'd be directed to the route we just declared. The `:` syntax tells the router that it will accept any value for this section of the route's path. The router will then make that value available to our application so it can respond to the user in a different way.
+
+In this particular context, the last value of this URL's path becomes available to our application via `state.params.type`. If our route was declared as `/filter/:meow`, the value would become available to us via `state.params.meow`.
+
+This means that when our user is directed to a specific `/filter` route, our application can see what type of animal they're asking for, and filter its output accordingly.
+
+This additional route we've declared reuses the `components/main.js` template, so let's add some new code in the `showAnimals` function at the bottom of that file, to filter for a specific type of animal:
+
+```js
+// ...
+
+// add new animal to state
+function add (e) {
+  var x = e.offsetX - 20
+  var y = e.offsetY - 10
+
+  emit('add', {x: x, y: y})
+}
+
+// render animal components
+function showAnimals (obj, i) {
+  var type = state.params.type
+  if (type) {
+    if (type === obj.type) {
+      return animal(emit, obj, i)
+    }
+  } else {
+    return animal(emit, obj, i)
+  }
+}
+
+// ...
+```
+
+Referring back to our `map()` function from earlier, `showAnimals()` is what we use to map across each item in our state (`${state.animals.map(showAnimals)}`), rendering a new `<img>` for each item.
+
+This latest update to the `showAnimals()` function first checks to see whether we've navigated to our special `/filter/:type` route. If we have, `state.params.type` would contain a string of the animal we're looking for. If not, this value would be empty.
+
+If the value is empty, we simply return our `components/animal.js` template and render every animal on the screen. If this value contains a string, we then check to see if that value matches the type of the animal we're currently iterating over. If there's a match, we render it to the screen. If not, we skip it, and move to the next item in the array.
+
+To trigger our filters, let's add some new markup to our `components/main.js` template, which renders a list of anchor elements, each linking out to specific animal's filter:
+
+```js
+// ...
+
+// create html template
+return html`
+  <div class="container">
+    <div class="grass">
+      <img src="/assets/bg.gif" onclick=${add} />
+      ${state.animals.map(showAnimals)}
+    </div>
+    <div class="controls">
+      <ul class="filters">
+        <li><a href="/">all</a></li>
+        <li><a href="/filter/crocodile">crododiles</a></li>
+        <li><a href="/filter/koala">koalas</a></li>
+        <li><a href="/filter/lion">lions</a></li>
+        <li><a href="/filter/tiger">tigers</a></li>
+        <li><a href="/filter/walrus">walruses</a></li>
+      </ul>
+    </div>
+  </div>
+`
+
+// ...
+```
+
+Let's switch to our application, and see what happens:
