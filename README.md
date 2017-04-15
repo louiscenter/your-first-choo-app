@@ -948,3 +948,26 @@ return html`
 ```
 
 Let's switch to our application, and see what happens:
+
+![filter](starter-filter.gif "Screenshot of filter")
+
+That's so cool! When we click on a filter, our app redirects to a new dynamic route, and our `showAnimals()` function handles which animals need to appear on the screen.
+
+## Summary
+
+🏁 Woah, we just finished building `choo-animals`! Congratulations ✨
+
+I hope you had a lot of fun making this app, just as much as I had fun writing this guide.
+
+Before we wrap up, let's write down a list of all the cool things we learned to do with `choo`. We learned how to:
+
+- Create templates
+- Create static & dynamic routes
+- Create & update application state
+- Modularise our code
+- Render templates with loops
+- Pass data around our application
+
+These concepts form a large part of any modern web app, not just those built with `choo`, but with other libraries and frameworks as well.
+
+In the following chapters of this handbook, you'll dive into other topics such as form handling, third-party library integration, and sending & receiving data from external APIs.
