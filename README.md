@@ -18,7 +18,7 @@ For this guide, we're going to build an interactive animal simulator called `cho
 
 This is what it looks like:
 
-[![screenshot](animals.gif)](https://choo-animals.glitch.me)
+[![screenshot](images/animals.gif)](https://choo-animals.glitch.me)
 
 The user can click anywhere on the grass to add an animal to the screen. Clicking on an animal will remove it from the screen. The user can also filter which animals they see, using the filter links at the bottom of the page.
 
@@ -33,11 +33,11 @@ A starter project is available for you to follow along with this guide: [https:/
 
 When the editor has finished loading, you should make your own copy of the project so you can start coding. To do this, click the `"Remix this 🎤"` button near the top left hand corner of the window:
 
-![remix](remix-this.png "Screenshot of remix this button")
+![remix](images/remix-this.png "Screenshot of remix this button")
 
 Your screen should now looking something like the following:
 
-![starter](starter-readme.png "Screenshot of starter code")
+![starter](images/starter-readme.png "Screenshot of starter code")
 
 ## Starting choo
 In our project's left sidebar, click on the `index.js` file to open its code in the code editor.
@@ -65,11 +65,11 @@ Finally, we start our application by appending it to the `<div>` element of the 
 
 At this point, we can take a look at what our app currently looks like. To do this, press the `"🕶 Show"` button near the top left hand corner of the window:
 
-![show](show.png "Screenshot of show button")
+![show](images/show.png "Screenshot of show button")
 
 Our application should appear in a new browser tab. However, as you'll see, the screen will be blank 😐:
 
-![blank](starter-blank.png "Screenshot of blank browser")
+![blank](images/starter-blank.png "Screenshot of blank browser")
 
 Our app does not yet contain any templates, nor any routes. This means that if we try to run our application, we will only ever see a blank page.
 
@@ -139,7 +139,7 @@ As this is our first route, we will make it the "index" (or "root") of the entir
 
 As we change the code in Glitch's editor, our app's window should automatically update itself. If you open it, you should see the following:
 
-![first route](starter-first-route.png "Screenshot of first route")
+![first route](images/starter-first-route.png "Screenshot of first route")
 
 If your app hasn't updated yet, you can simply refresh the window yourself.
 
@@ -158,7 +158,7 @@ If we were to modularise what we currently have, it would likely be considered "
 
 In Glitch's left sidebar, click the `"+ New File"` button. Specify your new file's path as `templates/main.js`, then click `Add File 👍`:
 
-![new file](starter-new-file.png "Screenshot of new file")
+![new file](images/starter-new-file.png "Screenshot of new file")
 
 First this creates a new folder named `templates`, and then adds a file called `main.js` inside of it. This file should now appear in the sidebar.
 
@@ -236,7 +236,7 @@ app.mount('div')
 
 If we look at our application, we should now see the following:
 
-![grass](starter-grass.png "Screenshot of grass")
+![grass](images/starter-grass.png "Screenshot of grass")
 
 Awesome! Let's recap what we just did:
 
@@ -355,7 +355,7 @@ You've probably noticed the interesting `${}` syntax being used inside of our te
 
 If we look at our application now, you should see something cute like this:
 
-![first animal](starter-first-animal.png "Screenshot of first animal")
+![first animal](images/starter-first-animal.png "Screenshot of first animal")
 
 Nice! A super sweet lion has decided to come and hang out with us while we code. 🦁
 
@@ -466,7 +466,7 @@ If you look again inside of `templates/animal.js`, you'll see that an `animal` i
 
 If we now look at our application, we should see that a new friend has arrived!
 
-![second animal](starter-second-animal.png "Screenshot of second animal")
+![second animal](images/starter-second-animal.png "Screenshot of second animal")
 
 Now is a good time to quickly summarise what we just did:
 
@@ -562,7 +562,7 @@ There are three significant updates to this file:
 
 If we switch to our application again, and click on the grass, a new lion should appear:
 
-![third animal](starter-third-animal.gif "Screenshot of third animal")
+![third animal](images/starter-third-animal.gif "Screenshot of third animal")
 
 ✨ Awesome! We now have our very first interactive `choo` app. ✨
 
@@ -694,7 +694,7 @@ Now before pushing a new object to `state.animals`, we randomly select an index 
 
 If we switch over to our application again, and begin clicking different areas of the grass, we should see something like this:
 
-![random animals](starter-random-animals.gif "Screenshot of random animals")
+![random animals](images/starter-random-animals.gif "Screenshot of random animals")
 
 *LOOK AT HOW CUTE THEY ALL ARE* 😍
 
@@ -712,7 +712,7 @@ At this point, we've made a super fun interactive `choo` app that we can share w
 
 __*ProTip™*__ ✨ you can send the link of your Glitch app to anyone who'd like to play with your app, or hack on your code with you via Glich's `Share` or `🕶 Show` buttons:
 
-![share](starter-share.png "Screenshot of share")
+![share](images/starter-share.png "Screenshot of share")
 
 Now that we're on a roll, let's think of a way to build our next feature: removing animals from our app.
 
@@ -853,7 +853,7 @@ Afterwards, we run `emitter.emit('render')`, which tells `choo` to re-render the
 
 Let's check our application, and see if this works:
 
-![deletion](starter-delete-animals.gif "Screenshot of deletion")
+![deletion](images/starter-delete-animals.gif "Screenshot of deletion")
 
 Cool! We can add animals to our screen, and also remove them. ✨ Talk about cuteness overload ✨
 
@@ -953,7 +953,7 @@ return html`
 
 Let's switch to our application, and see what happens:
 
-![filter](starter-filter.gif "Screenshot of filter")
+![filter](images/starter-filter.gif "Screenshot of filter")
 
 That's so cool! When we click on a filter, our app redirects to a new dynamic route, and our `animalMap()` function handles which animals need to appear on the screen.
 
