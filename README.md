@@ -27,11 +27,11 @@ You can try it for yourself here: [https://choo-animals.glitch.me](https://choo-
 ## Let's get started!
 For this guide, we will be using an online code editor called [Glitch](https://glitch.com/).
 
-Glitch lets us write, edit and deploy JavaScript code in the browser. This is useful because we can make changes to our code and see the updated results instantly.
+Glitch lets us write, edit and deploy JavaScript code in the browser. This is useful because we can make changes to our code and see the updated results instantly. ✨
 
 A starter project is available for you to follow along with this guide: [https://glitch.com/edit/#!/project/choo-animals-starter](https://glitch.com/edit/#!/project/choo-animals-starter)
 
-When the editor has finished loading, you should make your own copy of the project so you can begin editing it. To do this, click the `Remix this` button near the top left hand corner of the window:
+When the editor has finished loading, you should make your own copy of the project so you can start coding. To do this, click the `"Remix this 🎤"` button near the top left hand corner of the window:
 
 ![remix](remix-this.png "Screenshot of remix this button")
 
@@ -59,30 +59,28 @@ At the top of this file, we are importing the `choo` framework into our project 
 
 `require()` lets us import other JavaScript files into our code. `require()` does a lot more than this, but if you're not already familiar with its concepts, for this tutorial all you need to remember is that we will use it to import `choo`, and a handful of other files we write ourselves into our application.
 
-We then need to create an instance of `choo` that we build our app with. We initialize this instance using `choo()`, and then store it in the `app` variable. From this point onwards, when we interact with choo, it will be via `app`.
+We then need to create an instance of `choo` that we will build our app with. We initialize this instance using `choo()`, and then store it in the `app` variable. From this point onwards, when we interact with `choo`, it will be via `app`.
 
-Finally, we start our application by appending it on onto the `<div>` element of the HTML page our app will run on. We do this using the `app.mount()` method that `choo` conveniently makes available to us. If you open the `index.html` file, you'll see there is a single `<div>` element inside `<body>`. This is where `app.mount()` attaches our code onto.
+Finally, we start our application by appending it to the `<div>` element of the HTML page our app will run on. We do this using the `app.mount()` method that `choo` conveniently makes available to us. If you open the `index.html` file, you'll see there is a single `<div>` element inside `<body>`. This is where `app.mount()` attaches our application.
 
-At this point, we can take a look at what our app currently looks like.
-
-To do this, press the `Show` button near the top left hand corner of the window:
+At this point, we can take a look at what our app currently looks like. To do this, press the `"🕶 Show"` button near the top left hand corner of the window:
 
 ![show](show.png "Screenshot of show button")
 
-A new browser window will open showcasing our application. However, as you'll see, the screen will be blank:
+Our application should appear in a new browser tab. However, as you'll see, the screen will be blank 😐:
 
 ![blank](starter-blank.png "Screenshot of blank browser")
 
-Our application does not yet contain any templates, or any routes. This means that if we try to run our application, we will only ever see a blank page.
+Our app does not yet contain any templates, nor any routes. This means that if we try to run our application, we will only ever see a blank page.
 
-Let's fix this.
+Let's fix this ☝️
 
 ## Building a template
 In web app development, a template often refers to a piece of code that will help us render some HTML to the screen. Being templates, they will render most of the same information each time, but change slightly depending on the different bits of input they receive.
 
 Templates are essentially functions: given some input, they will render a new output depending on what happens inside that function.
 
-`choo` provides another module we can import that will help us build HTML templates with "template strings", one of JavaScript's newer syntax features.
+`choo` provides another module we can import that will help us build HTML templates with ["template strings"](https://davidwalsh.name/template-literals), one of JavaScript's newer syntax features.
 
 Let's update the code in our `index.js` file to read the following:
 
@@ -107,7 +105,7 @@ app.mount('div')
 
 Underneath our `choo` import near the top of the file, we're now also importing `choo`'s html helper. This becomes accessible via the `html` variable.
 
-Towards the end of the file, we're creating a function, and assigning it to the `main` variable. Inside the function, we're returning a template that we'll use to render `<div>choo animals</div>` on our page.
+Towards the end of the file, we're creating a function, and assigning it to the `main` variable. Inside this function, we're returning a template that we'll use to render `<div>choo animals</div>` to our page.
 
 This bit of code might be confusing, so let's disect further.
 
@@ -118,12 +116,10 @@ When a friend links you to a specific page on a website, that URL acts as a rout
 
 Many JavaScript web apps use this same concept to figure out which template to show you at a given point within the application.
 
-This means that to see something on our page, we need to create a route that directs us to the template we just made:
+This means that to see something on our page, we need to create a route that directs us to the template we just made. Let's add some code underneath our template:
 
 ```js
 // ...
-// initialize choo
-var app = choo()
 
 // create a template
 var main = function () {
@@ -147,7 +143,7 @@ As we change the code in Glitch's editor, our app's window should automatically 
 
 If your app hasn't updated yet, you can simply refresh the window yourself.
 
-Now that we can see text on the screen, this means that you successfully got `choo` working! Congratulations :)
+Now that we can see text on the screen, this means that you successfully got `choo` working! ✨ Congratulations 😊
 
 We're not finished yet, but let's quickly summarise what we've done so far:
 
@@ -160,13 +156,13 @@ Just like we can `require()` third-party modules like `choo` into our applicatio
 
 If we were to modularise what we currently have, it would likely be considered "pre-optimisation", since there's not much code there anyway. Attempts to break it out further would likely just increase complexity, but as we're about to add a lot of new markup to our `main` template in just a moment, let's go ahead and break it out into its own file.
 
-In Glitch's left sidebar, click the `+` icon next to `back-end`. Specify your new file's path as `components/main.js`, then click `Add File 👍`:
+In Glitch's left sidebar, click the `"+ New File"` button. Specify your new file's path as `templates/main.js`, then click `Add File 👍`:
 
 ![new file](starter-new-file.png "Screenshot of new file")
 
-First this creates a new folder named `components`, and then adds a file called `main.js` inside of it. This file should now appear in the sidebar.
+First this creates a new folder named `templates`, and then adds a file called `main.js` inside of it. This file should now appear in the sidebar.
 
-Let's add some code to our new `components/main.js` file:
+Let's add some code to our new `templates/main.js` file:
 
 ```js
 // import choo's template helper
@@ -201,20 +197,22 @@ Start by adding this line towards the top of `index.js`:
 
 ```js
 // ...
+
 // import choo's template helper
 var html = require('choo/html')
 
 // import template
-var main = require('./components/main.js')
+var main = require('./templates/main.js')
 
 // initialize choo
 var app = choo()
+
 // ...
 ```
 
-Underneath the line where we import `choo`'s html helper, we are now importing the `main.js` file we just created. Remembering that we exported a function that returns a template, we can now use that as the designated component for our `/` route.
+Underneath the line of code  where we import `choo`'s html helper, we now import the `templates/main.js` file we just created. Remembering that we exported a function that returns a template, we can now use that as the designated template for our `/` route.
 
-If we delete the `main` template that's currently located in `index.js`, that file should now look like this:
+Let's clean up `index.js`:
 
 ```js
 // import choo
@@ -224,7 +222,7 @@ var choo = require('choo')
 var html = require('choo/html')
 
 // import template
-var main = require('./components/main.js')
+var main = require('./templates/main.js')
 
 // initialize choo
 var app = choo()
@@ -242,9 +240,9 @@ If we look at our application, we should now see the following:
 
 Awesome! Let's recap what we just did:
 
-- First, we created a file called `main.js` inside of a new folder called `components`.
-- Inside `main.js`, we created a new template function and then exported it using `module.exports`.
-- Finally, we imported `main.js` into `index.js`, and then plugged it into our `/` route.
+- First, we created a file called `main.js` inside of a new folder called `templates`.
+- Inside `main.js`, we created a function that returns a template, and then exported it using `module.exports`.
+- Finally, we imported `templates/main.js` into `index.js`, then plugged it into our `/` route.
 
 Now that we have a nice grass field to play in, let's start adding some animals.
 
@@ -305,12 +303,12 @@ app.route('/', main)
 
 Underneath our initialization of `choo`, we are calling `app.use()` and passing a function into it. The function we pass in receives a `state` object which represents the state of our entire application. Although it has a wider scope of usage, for now we can just call `app.use()` when we want to setup the initial parameters of our application's state.
 
-Inside of `app.use()`, we're creating a new property on the `state` object called `state.animals`. We're then assigning it an object that contains some parameters we'll use to place a new animal on our screen: `type` sets which animal we want, and the `x` and `y` properties will dictate the animal's position coordinates.
+Inside of `app.use()`, we're creating a new property on the `state` object called `state.animals`. We're then assigning it an object that contains parameters we'll use to place a new animal on our screen: `type` sets which animal we want, and the `x` and `y` properties will dictate the animal's position.
 
 ## Passing state into our templates
 Now that we've set a new property on our state object, we can access this state from any templates that our router calls.
 
-Let's flip over to `components/main.js`, and update our template function:
+Let's flip over to `templates/main.js`, and update our template function:
 
 ```js
 // import choo's template helper
@@ -336,9 +334,9 @@ module.exports = function (state) {
 
 A few things have changed, so let's briefly dive in to see what's happening:
 
-First, the function that we're exporting now takes in an argument called `state`. This is same `state` object we were dealing with in `index.js`, after it has been run through `app.use()`. This means that the `state.animal` property is now available to us inside this template.
+First, the function that we're exporting now takes in an argument called `state`. This is the same `state` object from `index.js`, after it has been run through `app.use()`. This means that the `state.animal` property is now available to us inside this template.
 
-Inside the function, we're initializing a set of variables that point to the different part of our `state.animals` object. Then, inside of our template string, we've created a new `<img>` element. This `<img>` will represent an animal we place on screen. 
+Inside the function, we're initializing a set of variables that point to the different parts of our `state.animals` object. Then, inside of our template string, we've created a new `<img>` element. This `<img>` will represent an animal we place on screen.
 
 As mentioned earlier, we have several different images located inside an invisible `assets` folder in Glitch. They are:
 
@@ -351,21 +349,21 @@ As mentioned earlier, we have several different images located inside an invisib
 
 We can use the `state.animals.type` property that has been passed into our template to point to the correct image we need to render the animal on screen (`src="/assets/${type}.gif"`).
 
-Then, we can set a `style` property on the same `<img>` element to position the animal using `top` and `left`. These correspond to our `state.animals.x` and `state.animals.y` values.
+Then, we can set a `style` property on the same `<img>` element to position the animal using `left` and `top`. These correspond to our `state.animals.x` and `state.animals.y` values.
 
-You've probably noticed the interesting `${}` syntax being used inside of our template strings. If you're not already familiar with them, these are called expressions. By placing short JavaScript expressions inside these curly braces, the code will be evaluated and replaced with its returned value. In this case, `${type}` will evaluate to `'lion'`, `${x}` will evaluate to `200`, and so on.
+You've probably noticed the interesting `${}` syntax being used inside of our template strings. By placing short JavaScript expressions inside these curly braces, the code will be evaluated and replaced with its returned value. In this case, `${type}` will evaluate to `'lion'`, `${x}` will evaluate to `200`, and so on.
 
 If we look at our application now, you should see something cute like this:
 
 ![first animal](starter-first-animal.png "Screenshot of first animal")
 
-Nice! A super sweet lion has decided to come and hang out with us while we code :)
+Nice! A super sweet lion has decided to come and hang out with us while we code. 🦁
 
 That was a lot to digest, so let's quickly go over what we just did:
 
 - First, we setup `app.use()` in our `index.js` file.
 - Inside of `app.use()`, we then initialized our app's `state` object by describing the type and coordinates of an animal.
-- Then, we updated our `main.js` template to reflect the information stored in state.
+- Then, we updated our `templates/main.js` file to reflect the information stored in state.
 
 As a result, an animal is now rendered on the screen.
 
@@ -398,17 +396,19 @@ app.route('/', main)
 // ...
 ```
 
-`state.animals` now refers to both a Lion and a Crocodile, but `components/main.js` also needs to be updated to handle this restructure.
+`state.animals` now refers to both a Lion and a Crocodile, but `templates/main.js` also needs to be updated to handle this restructure.
 
 Our template should render each animal regardless of how many there are in state. To do this, we can program our template to iterate across `state.animals`, rendering a block of HTML for each animal that exists in the array.
 
-First, let's create a new file in Glitch with the filepath `components/animal.js`. This template will represent a single animal, and will be used to iterate over `state.animals` inside of `components/main.js`.
+First, let's create a new file in Glitch with the filepath `templates/animal.js`. This template will represent a single animal, and will be used to iterate over `state.animals` inside of `templates/main.js`.
 
-Let's wire up `components/animal.js` with the following code:
+Let's wire up `templates/animal.js` with the following code:
 
 ```js
+// import choo's template helper
 var html = require('choo/html')
 
+// export module
 module.exports = function (animal) {
   var type = animal.type
   var x = animal.x
@@ -421,10 +421,13 @@ module.exports = function (animal) {
 }
 ```
 
-This code you've seen before, as it already exists inside of `components/main.js`. We're breaking this template out into its own function so that we can refer to it each time we iterate over `state.animals`. Let's do that now by updating `components/main.js`:
+This code you've seen before, as it already exists inside of `templates/main.js`. We're breaking this template out into its own file so that we can refer to it each time we iterate over `state.animals`. Let's do that now by updating `templates/main.js`:
 
 ```js
+// import choo's template helper
 var html = require('choo/html')
+
+// import template
 var animal = require('./animal.js')
 
 // export module
@@ -441,7 +444,7 @@ module.exports = function (state) {
 }
 ```
 
-In `components/main.js`, we've replaced the HTML markup we shifted into `components/animal.js` with `${state.animals.map(animal)}`. What is happening here?
+In `templates/main.js`, we've replaced the HTML markup we shifted into `templates/animal.js` with `${state.animals.map(animal)}`. What is happening here?
 
 In JavaScript, arrays come with a built-in method called `map()`. When we call `map()`, we also pass into it another function which is executed against every item in the array. Each time the function runs, the current item is passed in as an argument. When `map()` is finished running, it will return a new array with each function's return value.
 
@@ -457,9 +460,9 @@ console.log(newArray)
 // [2, 4, 6]
 ```
 
-In the context of our application, we are using `map()` to iterate across each animal in our `state.animals` array. By passing in our `components/animal.js` template into `map()`, we can then create a new array of templates that each represent an animal. These are then rendered in place of `${state.animals.map(animal)}`.
+In the context of our application, we are using `map()` to iterate across each animal in our `state.animals` array. By passing in our `templates/animal.js` template into `map()`, we can then create a new array of templates that each represent an animal. These are then rendered in place of `${state.animals.map(animal)}`.
 
-If you look again inside of `components/animal.js`, you'll see that an `animal` is passed in as an argument each time the exported function is run. We are then grabbing the `type` and `x/y` information of the animal currently being iterated on, and returning that new template.
+If you look again inside of `templates/animal.js`, you'll see that an `animal` is passed in as an argument each time the exported function is run. We are then grabbing the `type`,`x`, and `y` values of the animal currently being iterated on, and returning that new template.
 
 If we now look at our application, we should see that a new friend has arrived!
 
@@ -468,8 +471,8 @@ If we now look at our application, we should see that a new friend has arrived!
 Now is a good time to quickly summarise what we just did:
 
 - First, we changed our state to reflect not just one animal (a single object), but many animals (an array of objects).
-- We then created a new template (`components/animal.js`) which outputs an `<img>` element, representing one animal.
-- Finally, using JavaScript's `map()` function, we "mapped" across `state.animals` inside our `components/main.js` template. This allowed us to render each animal inside of `state.animals` to the screen.
+- We then created a new template (`templates/animal.js`) which outputs an `<img>` element, representing one animal.
+- Finally, using JavaScript's `map()` function, we "mapped" across `state.animals` inside our `templates/main.js` file. This lets us to render each animal inside of `state.animals` to the screen.
 
 It would be nice if we could add new animals to our application simply by clicking somewhere on the grass, rather than having to update our code by hand to reflect this. Let's figure out a way to update our `state` directly from our templates.
 
@@ -495,7 +498,7 @@ app.use(function (state, emitter) {
   ]
 
   // add animal
-  emitter.on('add', function () {
+  emitter.on('addAnimal', function () {
     var obj = {type: 'lion', x: 200, y: 100}
     state.animals.push(obj)
 
@@ -512,8 +515,8 @@ In this code block, we've introduced a new object called `emitter`, which is ava
 
 Underneath our initialization of `state.animals`, we're calling `emitter.on()`. This function takes two arguments:
 
-- The name of the "event" you're listening for (specified as a string. We chose `add`, but this can be whatever we like.)
-- A function that will run when the event is triggered 
+- The name of the "event" to listen for (specified as a string. We chose `addAnimal`, but this can be anything we like.)
+- A function that will run when the event is triggered
 
 Inside the function, we're creating a new lion object, and pushing it into our `state.animals` array. At this point, our state has now been modified, but we then need to tell `choo` to re-render our templates to reflect these changes.
 
@@ -521,10 +524,13 @@ To do this, we're calling `emitter.emit('render')`. This triggers a pre-configur
 
 With this all set up, we now need a way to trigger the `add` event handler from one of our templates.
 
-Let's update our template inside of `components/main.js` to show the following:
+Let's update our template inside of `templates/main.js` to show the following:
 
 ```js
+// import choo's template helper
 var html = require('choo/html')
+
+// import template
 var animal = require('./animal.js')
 
 // export module
@@ -541,7 +547,7 @@ module.exports = function (state, emit) {
 
   // add new animal to state
   function add () {
-    emit('add')
+    emit('addAnimal')
   }
 }
 ```
@@ -552,13 +558,13 @@ There are three significant updates to this file:
 
 - Our `<img>` element now has an `onclick` property. This means that when the user clicks the image of the grass, a function called `add` will be triggered.
 
-- Below our template, we're declaring the `add` function referred to in our `<img>` element's `onclick` property. Inside, we're triggering `emit('add')`, which will cause our `add` event handler, back in `index.js`, to execute.
+- Below our template, we're declaring the `add` function referred to in our `<img>` element's `onclick` property. Inside, we're triggering `emit('addAnimal')`, which will cause our `addAnimal` event handler, back in `index.js`, to execute.
 
 If we switch to our application again, and click on the grass, a new lion should appear:
 
 ![third animal](starter-third-animal.gif "Screenshot of third animal")
 
-Awesome! We now have our very first interactive `choo` app. 😊
+✨ Awesome! We now have our very first interactive `choo` app. ✨
 
 We're not quite done yet, but we just implemented a lot of really cool new functionality, so let's dive deeper to understand exactly what's going on.
 
@@ -579,7 +585,7 @@ The `state` object contains the data structures that drive our application. The 
 
 We then use the `emitter` object to register functions that react to the execution of events elsewhere in our application. The names of the events we register can be anything we like. As they are registered inside of the function we pass into `app.use()`, they have the ability to modify the `state` object directly.
 
-In `components/main.js`, we have access to both the `state` object, and an `emit` function. These are both passed into any template functions that are registered with a route (eg. `app.route('/', main)`).
+In `templates/main.js`, we have access to both the `state` object, and an `emit` function. These are both passed into any template functions that are registered with a route (eg. `app.route('/', main)`).
 
 ```js
 // example
@@ -605,19 +611,19 @@ Finally, if we want to trigger an event by clicking on an element in one of our 
 ## Passing data to state
 Although our app is now interactive, it's not as fun as it could be.
 
-When we add an animal to our `state` object, we're adding the same animal (a lion), and giving it the same coordinates each time. To make this more interesting, when a new animal is created, our app should randomly choose from a set of different animals, and position it with the same coordinates as our cursor.
+When we add an animal to our `state` object, we're adding the same animal (a Lion), and giving it the same coordinates each time. To make this more interesting, when a new animal is created, our app should randomly choose from a set of different animals, and position it with the same coordinates as our cursor.
 
 To do this, we need a way to pass information to our state from our templates. This can be done via the event handlers we are triggering.
 
-Looking at our `components/main.js` file, we are executing our declared `add()` function when we click on the image of the grass. Inside of this function, we're executing `emit('add')`, which tells our handler back in `index.js` to update our `state` object.
+Looking at our `templates/main.js` file, we are executing our declared `add()` function when we click on the image of the grass. Inside of this function, we're executing `emit('addAnimal')`, which tells our handler back in `index.js` to update our `state` object.
 
 `emit()` actually accepts two arguments:
 
-- The first, which we already know, is the name of the event we'd like to trigger (eg. `'add'`).
+- The first, which we already know, is the name of the event we'd like to trigger (eg. `'addAnimal'`).
 
 - The second is any data we'd like to pass through to the function on the other end.
 
-Let's update our `add()` function in `components/main.js`:
+Let's update our `add()` function in `templates/main.js`:
 
 ```js
 // ...
@@ -627,25 +633,25 @@ function add (e) {
   var y = e.offsetY - 10
 
   var obj = {x: x, y: y}
-  emit('add', obj)
+  emit('addAnimal', obj)
 }
 
 // ...
 ```
 
-Now, when `add()` executes after you click the grass, two new things are happening:
+Now, when `add()` executes after you click on the grass, two new things are happening:
 
 - First, we are grabbing the `offsetX` and `offsetY` information from the click event *(notice that `e`, the click event object, is now passed into this function)*. This tells us where we clicked our mouse, relative to the image of the grass. We're slightly adjusting these values to compensate for the cursor itself.
 
 - Then, we are calling `emit()`, specifying the name of the event listener we'd like to trigger, but also passing in an object that contains the `x` and `y` coordinates of where we clicked.
 
-Let's go back to `index.js` and make some changes to our `emitter.on('add')` function:
+Let's go back to `index.js` and make some changes to our `emitter.on('addAnimal')` handler:
 
 ```js
 // ...
 
 // add animal
-emitter.on('add', function (data) {
+emitter.on('addAnimal', function (data) {
   var x = data.x
   var y = data.y
 
@@ -658,17 +664,17 @@ emitter.on('add', function (data) {
 // ...
 ```
 
-The function that we pass into this event listener, now takes in a new argument: `data`. This value represents the information that we passed into `emit()` back in `components/main.js` (the `x` and `y` coordinates).
+The function that we pass into this event listener, now takes in a new argument: `data`. This value represents the information that we passed into `emit()` back in `templates/main.js` (the `x` and `y` coordinates).
 
 We can then construct an object with our coordinates, push this to `state.animals`, then re-render the screen.
 
-We did mention earlier that we'd like to randomly create a new type of animal each time, so let's update our code again to reflect that:
+We did mention earlier that we'd like to randomly create a new type of animal for each click, so let's update our code again to reflect that:
 
 ```js
 // ...
 
 // add animal
-emitter.on('add', function (data) {
+emitter.on('addAnimal', function (data) {
   var animals = ['crocodile', 'koala', 'lion', 'tiger', 'walrus']
 
   var type = Math.floor(Math.random() * 5)
@@ -696,15 +702,15 @@ Take a moment to appreciate everything you've just built! Our `choo` app is real
 
 Let's quickly revisit what we accomplished in this last section:
 
-- In our template (`components/main.js`), we obtained the `x` and `y` coordinates of our mouse click event.
+- In our template (`templates/main.js`), we obtained the `x` and `y` coordinates of our mouse click event.
 
-- We then passed this information through to the `add` event listener using `emit('add', obj)`.
+- We then passed this information through to the `addAnimal` event handler using `emit('addAnimal', obj)`.
 
-- Over in `index.js`, we received this data inside our `emitter.on('add')` handler as `data`, and proceeded to push this into our `state.animals` array. 
+- Over in `index.js`, we received this data inside our `emitter.on('addAnimal')` handler as `data`, and proceeded to push this into our `state.animals` array.
 
 At this point, we've made a super fun interactive `choo` app that we can share with all our friends! 👭
 
-Remember, you can send the link of your Glitch app to anyone who'd like to play with your app, or hack on your code with you.
+__*ProTip™*__ ✨ you can send the link of your Glitch app to anyone who'd like to play with your app, or hack on your code with you via Glich's `Share` or `🕶 Show` buttons:
 
 ![share](starter-share.png "Screenshot of share")
 
@@ -715,19 +721,23 @@ If we can add an animal to the grass field by clicking in a particular location,
 
 This means that instead of updating `state.animals` by adding a new item to its array, we would instead need to remove the item that correlates to the animal that was clicked.
 
-Let's start by opening `components/main.js` and update its code:
+Let's start by opening `templates/main.js` and update its code:
 
 ```js
+// import choo's template helper
 var html = require('choo/html')
-var animal = require('./animal')
 
+// import template
+var animal = require('./animal.js')
+
+// export module
 module.exports = function (state, emit) {
   // create html template
   return html`
     <div class="container">
       <div class="grass">
         <img src="/assets/bg.gif" onclick=${add} />
-        ${state.animals.map(showAnimals)}
+        ${state.animals.map(animalMap)}
       </div>
     </div>
   `
@@ -737,36 +747,36 @@ module.exports = function (state, emit) {
     var x = e.offsetX - 20
     var y = e.offsetY - 10
 
-    emit('add', {x: x, y: y})
+    emit('addAnimal', {x: x, y: y})
   }
 
-  function showAnimals (obj, i) {
+  function animalMap (obj, i) {
     return animal(emit, obj, i)
   }
 }
 ```
 
-First, we created a new function called `showAnimals()`, which returns our `components/animal.js` template:
+First, we created a new function called `animalMap()`, which returns our `templates/animal.js` template:
 
 ```js
-function showAnimals (obj, i) {
+function animalMap (obj, i) {
   return animal(emit, obj, i)
 }
 ```
 
-Then, closer to the top of the file, we're now passing the function we just created into `state.animals.map`, rather than the `components/animal.js` template itself:
+Then, closer to the top of the file, we're now passing the function we just created into `state.animals.map`, rather than the `templates/animal.js` template itself:
 
 ```js
-${state.animals.map(showAnimals)}
+${state.animals.map(animalMap)}
 ```
 
-You may have noticed that we're now passing some new arguments into our `components/animal.js` template, via the `showAnimals()` function, before we run it through `map()`. Why are we doing this?
+You may have noticed that we're now passing some new arguments into our `templates/animal.js` template, via the `animalMap()` function, before we run it through `map()`. Why are we doing this?
 
-To be able to build a deletion feature, our `components/animal.js` template needs access to some extra functions and information. To be able to tell `choo` to update our application's state, our template will need access to the `emit()` function when it's clicked. We are passing `emit` into `components/animal.js` as our first argument. Our second argument is `obj`, which represents the animal that `map()` is iterating across. The final argument, `i`, represents the index number of the current `map()` iteration. 
+To be able to build a deletion feature, our `templates/animal.js` template needs access to some extra functions and information. To be able to tell `choo` to update our application's state, our template will need access to the `emit()` function when it's clicked. We are passing `emit` into `templates/animal.js` as our first argument. Our second argument is `obj`, which represents the animal that `map()` is iterating across. The final argument, `i`, represents the index number of the current `map()` iteration.
 
 These changes may seem confusing and abstract at first. Don't worry! 😊 Our next move will hopefully tie these changes together.
 
-Let's open `components/animal.js`, and update its code:
+Let's open `templates/animal.js`, and update its code:
 
 ```js
 var html = require('choo/html')
@@ -784,14 +794,14 @@ module.exports = function (emit, animal, i) {
   // remove animal from state
   function remove (e) {
     var index = e.target.id
-    emit('remove', index)
+    emit('removeAnimal, index)
   }
 }
 ```
 
 We've added a lot of new code to this file, so lets breakdown exactly what's happening:
 
-- This template function, when called from `components/main.js`, now accepts the three arguments we described above: `choo`'s `emit()` function, the current `animal` we're iterating over, and the index number of the current animal, represented as `i`.
+- This template function, when called from `templates/main.js`, now accepts the three arguments we described above: `choo`'s `emit()` function, the current `animal` we're iterating over, and the index number of the current animal, represented as `i`.
 
 - We've added an `id` property to our `<img>` element, which accepts the value of `i`. We use this to identify which animal we are clicking, and where it sits within our `state.animals` array.
 
@@ -837,7 +847,7 @@ app.use(function (state, emitter) {
 // ...
 ```
 
-Towards the bottom of this function, we've added `emitter.on('remove')`. When we run `emit('remove')` from `components/animal.js`, this is the block of code it triggers. It takes the index number of the animal that we clicked (this was stored on the `<img>`'s `id` property), and removes it from `state.animals` using JavaScript's built-in `splice()` function.
+Towards the bottom of this function, we've added `emitter.on('remove')`. When we run `emit('removeAnimal')` from `templates/animal.js`, this is the block of code it triggers. It takes the index number of the animal that we clicked (this was stored on the `<img>`'s `id` property), and removes it from `state.animals` using JavaScript's built-in `splice()` function.
 
 Afterwards, we run `emitter.emit('render')`, which tells `choo` to re-render the screen.
 
@@ -879,7 +889,7 @@ In this particular context, the last value of this URL's path becomes available 
 
 This means that when our user is directed to a specific `/filter` route, our application can see what type of animal they're asking for, and filter its output accordingly.
 
-This additional route we've declared reuses the `components/main.js` template, so let's add some new code in the `showAnimals` function at the bottom of that file, to filter for a specific type of animal:
+This additional route we've declared reuses the `templates/main.js` template, so let's add some new code in the `animalMap` function at the bottom of that file, to filter for a specific type of animal:
 
 ```js
 // ...
@@ -889,11 +899,11 @@ function add (e) {
   var x = e.offsetX - 20
   var y = e.offsetY - 10
 
-  emit('add', {x: x, y: y})
+  emit('addAnimal', {x: x, y: y})
 }
 
 // render animal components
-function showAnimals (obj, i) {
+function animalMap (obj, i) {
   var type = state.params.type
   if (type) {
     if (type === obj.type) {
@@ -907,13 +917,13 @@ function showAnimals (obj, i) {
 // ...
 ```
 
-Referring back to our `map()` function from earlier, `showAnimals()` is what we use to map across each item in our state (`${state.animals.map(showAnimals)}`), rendering a new `<img>` for each item.
+Referring back to our `map()` function from earlier, `animalMap()` is what we use to map across each item in our state (`${state.animals.map(animalMap)}`), rendering a new `<img>` for each item.
 
-This latest update to the `showAnimals()` function first checks to see whether we've navigated to our special `/filter/:type` route. If we have, `state.params.type` would contain a string of the animal we're looking for. If not, this value would be empty.
+This latest update to the `animalMap()` function first checks to see whether we've navigated to our special `/filter/:type` route. If we have, `state.params.type` would contain a string of the animal we're looking for. If not, this value would be empty.
 
-If the value is empty, we simply return our `components/animal.js` template and render every animal on the screen. If this value contains a string, we then check to see if that value matches the type of the animal we're currently iterating over. If there's a match, we render it to the screen. If not, we skip it, and move to the next item in the array.
+If the value is empty, we simply return our `templates/animal.js` template and render every animal on the screen. If this value contains a string, we then check to see if that value matches the type of the animal we're currently iterating over. If there's a match, we render it to the screen. If not, we skip it, and move to the next item in the array.
 
-To trigger our filters, let's add some new markup to our `components/main.js` template, which renders a list of anchor elements, each linking out to specific animal's filter:
+To trigger our filters, let's add some new markup to our `templates/main.js` template, which renders a list of anchor elements, each linking out to specific animal's filter:
 
 ```js
 // ...
@@ -923,7 +933,7 @@ return html`
   <div class="container">
     <div class="grass">
       <img src="/assets/bg.gif" onclick=${add} />
-      ${state.animals.map(showAnimals)}
+      ${state.animals.map(animalMap)}
     </div>
     <div class="controls">
       <ul class="filters">
@@ -945,7 +955,7 @@ Let's switch to our application, and see what happens:
 
 ![filter](starter-filter.gif "Screenshot of filter")
 
-That's so cool! When we click on a filter, our app redirects to a new dynamic route, and our `showAnimals()` function handles which animals need to appear on the screen.
+That's so cool! When we click on a filter, our app redirects to a new dynamic route, and our `animalMap()` function handles which animals need to appear on the screen.
 
 ## Summary
 
