@@ -4,7 +4,7 @@
 ✨ This guide will take you through your first steps as you build an interactive web app with `choo` ✨
 
 ## choo handbook
-This guide has been published at [https://handbook.choo.io](https://handbook.choo.io).
+This guide has been published at [https://handbook.choo.io/your-first-choo-app](https://handbook.choo.io/your-first-choo-app).
 
 ## Who is guide this for?
 If you're comfortable with the basics of JavaScript, HTML & CSS, but you've never built an interactive web app before, this guide is for you.
