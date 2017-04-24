@@ -264,7 +264,6 @@ In programming, it's commonplace for a script to have several variables which co
 
 ```js
 // example
-
 var fun = true
 var name = 'Alice'
 
